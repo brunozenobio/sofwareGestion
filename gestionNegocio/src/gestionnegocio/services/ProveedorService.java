@@ -6,6 +6,9 @@
 package gestionnegocio.services;
 
 import gestionnegocio.entidades.Proveedor;
+import gestionnegocio.persistencia.CategoriaDAO;
+import gestionnegocio.persistencia.ProveedorDAO;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -14,7 +17,11 @@ import java.util.UUID;
  * @author brunopc
  */
 public class ProveedorService {
+    ProveedorDAO pDAO = new ProveedorDAO();
     private Scanner read = new Scanner(System.in).useDelimiter("\n");
+     //=======================================
+    //=============AGREGAR NUEVO=============
+    //=======================================
     public Proveedor crearProvedoor() throws Exception{
         Proveedor proveedor = new Proveedor();
         proveedor.setId(UUID.randomUUID().toString());
@@ -50,9 +57,28 @@ public class ProveedorService {
         return proveedor;
         
     }
-    
-    public Proveedor buscarProveedorPorNombre(String nombre){
-       // Proveedor proveedor = METODO PARA BUSCAR EN LA BASE DE DATOS
-       return null;
+    //======================================
+    //=============CONSULTAS================
+    //======================================
+    public List<Proveedor> obtenerProvedores(){
+        try {
+            return pDAO.obtenerProveedores();
+        } catch (Exception e) {
+            throw e;
+        }
     }
+    
+    public Proveedor buscarProveedorPorId(String id){
+        try {
+            return pDAO.buscarPorId(id);
+            
+        } catch (Exception e) {
+            throw e;
+        }
+        
+    }
+    
+    //======================================
+    //=============MODIFICACIONES================
+    //======================================
 }

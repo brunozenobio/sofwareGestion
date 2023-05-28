@@ -6,7 +6,9 @@
 package gestionnegocio.services;
 
 import gestionnegocio.entidades.*;
+import gestionnegocio.persistencia.ProductoDAO;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -15,9 +17,13 @@ import java.util.UUID;
  * @author brunopc
  */
 public class ProductoServices {
+    ProductoDAO pDAO = new ProductoDAO();
 
     private Scanner read = new Scanner(System.in).useDelimiter("\n");
-
+    
+    //=======================================
+    //=============AGREGAR NUEVO=============
+    //=======================================
     public Producto crearProducto(Proveedor prov, Categoria cat) throws Exception {
         Producto producto = new Producto();
         producto.setId(UUID.randomUUID().toString());
@@ -70,6 +76,10 @@ public class ProductoServices {
         return producto;
     }
 
+    
+    //======================================
+    //=============CONSULTAS================
+    //======================================
     public ArrayList<Producto> buscarProductos(String nombre, String marca, String codigo, String nombreProv) {
         //METODO PARA BUSCAR
         
@@ -77,5 +87,28 @@ public class ProductoServices {
         return null;
 
     }
+    public List<Producto> obtenerProductos(String id_proveedor,String id_categoria){
+        try {
+            return pDAO.consultarProducto(id_categoria, id_proveedor);
+            
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    public List<Producto> consultarProductosEnStock(){
+        
+        try {
+            return pDAO.consultarStock();
+            
+        } catch (Exception e) {
+            throw e;
+        }
+        
+    }
+    
+    
+    //======================================
+    //=============MODIFICACIONES================
+    //======================================
 
 }

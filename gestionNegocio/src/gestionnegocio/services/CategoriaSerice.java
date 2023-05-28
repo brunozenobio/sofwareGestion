@@ -6,6 +6,8 @@
 package gestionnegocio.services;
 
 import gestionnegocio.entidades.Categoria;
+import gestionnegocio.persistencia.CategoriaDAO;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -16,6 +18,11 @@ import java.util.UUID;
 public class CategoriaSerice {
     
     private Scanner read = new Scanner(System.in).useDelimiter("\n");
+    
+    CategoriaDAO cDAO = new CategoriaDAO();
+     //=======================================
+    //=============AGREGAR NUEVO=============
+    //=======================================
     
     public Categoria crearCategoria() throws Exception{
         Categoria categoria = new Categoria();
@@ -36,10 +43,33 @@ public class CategoriaSerice {
         
         
     }
+    //======================================
+    //=============CONSULTAS================
+    //======================================
     
-    public Categoria buscarPorCategoria(String nombre){
-        //BUSCO UNA CATEGORIA EN LA BASE DE DATOS
-        return null;
+    public List<Categoria> obtenerCategorias(){
+        
+        try {
+            return cDAO.obtenerCategorias();
+            
+        } catch (Exception e) {
+            throw e;
+        }
+        
     }
     
+    public Categoria buscarCategoriaPorId(String id){
+        
+        try {
+            
+            return  cDAO.buscarPorId(id);
+            
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+     //======================================
+    //=============MODIFICACIONES================
+    //======================================
 }
