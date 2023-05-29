@@ -24,20 +24,20 @@ public class CategoriaSerice {
     //=============AGREGAR NUEVO=============
     //=======================================
     
-    public Categoria crearCategoria() throws Exception{
+    public Categoria crearCategoria(String nombre) throws Exception{
         Categoria categoria = new Categoria();
         categoria.setId(UUID.randomUUID().toString());
         System.out.println("Creando categoria nueva");
-        System.out.println("Nombre: ");
-        String nombre = read.next();
+
         try {
             if(nombre == null || nombre.trim().isEmpty()){
                 throw new Exception("Debe indicar una categoria");
             }
-        } catch (Exception e) {{
+        } catch (Exception e) {
             throw e;
+        
         }
-        }
+        categoria.setNombre(nombre);
         //METODO PARA AGREGAR A LA BASE DE DATOS
         return categoria;
         

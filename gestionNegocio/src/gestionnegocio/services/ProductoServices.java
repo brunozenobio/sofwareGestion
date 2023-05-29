@@ -24,24 +24,14 @@ public class ProductoServices {
     //=======================================
     //=============AGREGAR NUEVO=============
     //=======================================
-    public Producto crearProducto(Proveedor prov, Categoria cat) throws Exception {
+    public Producto crearProducto(String codigo,String nombre,String marca,String 
+            descripcion,int cantidad,double precioSinIva,
+            Proveedor prov, Categoria cat) throws Exception {
         Producto producto = new Producto();
         producto.setId(UUID.randomUUID().toString());
         producto.setId_categoria(cat);
         producto.setId_proveedor(prov);
         System.out.println("Creando producto: ");
-        System.out.print("Codigo del producto: ");
-        String codigo = read.next();
-        System.out.print("Nombre: ");
-        String nombre = read.next();
-        System.out.print("Marca: ");
-        String marca = read.next();
-        System.out.print("Descripcion: ");
-        String descripcion = read.next();
-        System.out.print("Cantidad: ");
-        int cantidad = read.nextInt();
-        System.out.println("Precio sin IVA");
-        double precioSinIva = read.nextDouble();
         double precioConIva = precioSinIva * 0.21;
         try {
             if (codigo == null || codigo.trim().isEmpty()) {
@@ -80,13 +70,14 @@ public class ProductoServices {
     //======================================
     //=============CONSULTAS================
     //======================================
-    public ArrayList<Producto> buscarProductos(String nombre, String marca, String codigo, String nombreProv) {
-        //METODO PARA BUSCAR
-        
-
-        return null;
-
+    public Producto consultarCodigo(String codigo){
+       return  pDAO.buscarPorCodigo(codigo);
     }
+    
+    public List<Producto> consultarNombre(String nombre){
+       return  pDAO.buscarPorNombre(nombre);
+    }
+    
     public List<Producto> obtenerProductos(String id_proveedor,String id_categoria){
         try {
             return pDAO.consultarProducto(id_categoria, id_proveedor);

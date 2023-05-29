@@ -19,8 +19,7 @@ import javax.persistence.Persistence;
  * @author brunopc
  */
 public class ProductoDAO {
-    
-    
+
     //=======================================
     //=============AGREGAR NUEVO=============
     //=======================================
@@ -58,13 +57,9 @@ public class ProductoDAO {
             throw e;
         }
     }
-    
-    
-    
-    
-    
+
     //BUSCAR POR ID
-    public Producto buscarPorId(String id){
+    public Producto buscarPorId(String id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
         EntityManager em = emf.createEntityManager();
         try {
@@ -75,25 +70,22 @@ public class ProductoDAO {
             throw e;
         }
     }
-    
+
     //VER LISTA DE PRODUCTOS
-    public List<Producto> obtenerProductos(){
+    public List<Producto> obtenerProductos() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
         EntityManager em = emf.createEntityManager();
         try {
-            
+
             List<Producto> productos = em.createQuery("SELECT p  FROM "
                     + "Producto p").getResultList();
             return productos;
         } catch (Exception e) {
             throw e;
         }
-        
-        
+
     }
-    
-    
-    
+
     //BUSCAR PRODUCTOS POR ID PROVEEDOR
     public List<Producto> consultarProveedor(String id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
@@ -107,7 +99,7 @@ public class ProductoDAO {
             throw e;
         }
     }
-    
+
     //BUSCAR PRODUCTOS POR CATEGORIA
     public List<Producto> consultarCategoria(String id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
@@ -121,41 +113,77 @@ public class ProductoDAO {
             throw e;
         }
     }
-    
-    
+
     //BUSCAR CATEGORIA Y PROVEEDOR
     public List<Producto> consultarProducto(String idCategoria, String idProveedor) {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
-    EntityManager em = emf.createEntityManager();
-    List<Producto> productos;
-    try {
-        if(idCategoria == null && idProveedor != null){
-            productos = consultarProveedor(idProveedor);
-        }else if(idCategoria != null && idProveedor == null){
-            productos = consultarCategoria(idCategoria);
-        }else if(idCategoria != null && idProveedor != null){
-            productos = em.createQuery(
-            "SELECT p FROM Producto p " +
-            "JOIN FETCH p.categoria c " +
-            "JOIN FETCH p.proveedor pr " +
-            "WHERE c.categoria = :idCategoria AND pr.id_proveedor = :idProveedor"
-        )
-        .setParameter("idCategoria", idCategoria)
-        .setParameter("idProveedor", idProveedor)
-        .getResultList();
-        }else{
-            productos = obtenerProductos();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
+        EntityManager em = emf.createEntityManager();
+        List<Producto> productos;
+        try {
+
+            if (idCategoria == null && idProveedor != null) {
+                productos = consultarProveedor(idProveedor);
+            } else if (idCategoria != null && idProveedor == null) {
+                productos = consultarCategoria(idCategoria);
+            } else if (idCategoria != null && idProveedor != null) {
+                productos = em.createQuery(
+                        "SELECT p FROM Producto p "
+                        + "JOIN FETCH p.categoria c "
+                        + "JOIN FETCH p.proveedor pr "
+                        + "WHERE c.categoria = :idCategoria AND pr.id_proveedor = :idProveedor"
+                )
+                        .setParameter("idCategoria", idCategoria)
+                        .setParameter("idProveedor", idProveedor)
+                        .getResultList();
+            } else {
+                productos = obtenerProductos();
+            }
+
+            return productos;
+        } catch (Exception e) {
+            throw e;
         }
-        
-
-        return productos;
-    } catch (Exception e) {
-        throw e;
     }
-}
 
+    public Producto buscarPorCodigo(String codigo) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
+        EntityManager em = emf.createEntityManager();
 
-   
+        Producto producto = (Producto) em.createQuery("SELECT p FROM Producto p"
+                + " WHERE p.codigo=:codigo").setParameter("codigo", codigo).
+                getSingleResult();
+        return producto;
+
+    }
+
+    public List<Producto> buscarPorNombre(String nombre) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
+        EntityManager em = emf.createEntityManager();
+
+        List<Producto> productos = em.createQuery("SELECT p FROM Producto p"
+                + " WHERE p.nombre=:nombre").setParameter("nombre", nombre).getResultList();
+        return productos;
+
+    }
+
+    public List<Producto> buscarNombreCatProv(String idCategoria, String idProveedor, String nombre) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
+        EntityManager em = emf.createEntityManager();
+        try {
+            List<Producto> productos = em.createQuery(
+                        "SELECT p FROM Producto p "
+                        + "JOIN FETCH p.categoria c "
+                        + "JOIN FETCH p.proveedor pr "
+                        + "WHERE c.categoria = :idCategoria AND pr.id_proveedor = :idProveedor AND p.nombre=:nombre"
+                )
+                        .setParameter("idCategoria", idCategoria)
+                        .setParameter("idProveedor", idProveedor).setParameter("nombre", nombre)
+                        .getResultList();
+        return productos;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
     public int totalProductos() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
@@ -164,12 +192,8 @@ public class ProductoDAO {
         int cantidadTot = productos.size();
         return cantidadTot;
     }
-    
-    
+
     //======================================
     //=============MODIFICACIONES================
     //======================================
-    
-    
-
 }

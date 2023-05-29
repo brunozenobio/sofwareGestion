@@ -22,16 +22,11 @@ public class ProveedorService {
      //=======================================
     //=============AGREGAR NUEVO=============
     //=======================================
-    public Proveedor crearProvedoor() throws Exception{
+    public Proveedor crearProvedoor(String nombre,String direccion,String contacto) throws Exception{
         Proveedor proveedor = new Proveedor();
         proveedor.setId(UUID.randomUUID().toString());
         System.out.println("Creando proveedor");
         System.out.print("Nombre: ");
-        String nombre = read.next();
-        System.out.print("Diriccion: ");
-        String direccion = read.next();
-        System.out.println("Contaco: ");
-        String contacto = read.next();
         
         //VERIFICO LOS DATOS
         try {
