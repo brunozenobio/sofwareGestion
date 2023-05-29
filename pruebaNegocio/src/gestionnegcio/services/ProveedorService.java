@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestionnegocio.services;
+package gestionnegcio.services;
 
-import gestionnegocio.entidades.Proveedor;
-import gestionnegocio.persistencia.CategoriaDAO;
-import gestionnegocio.persistencia.ProveedorDAO;
+import gestionnegcio.entidades.Proveedor;
+import gestionnegcio.persistencia.CategoriaDAO;
+import gestionnegcio.persistencia.ProveedorDAO;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -22,7 +22,7 @@ public class ProveedorService {
      //=======================================
     //=============AGREGAR NUEVO=============
     //=======================================
-    public Proveedor crearProvedoor(String nombre,String direccion,String contacto) throws Exception{
+    public Proveedor crearProveedor(String nombre,String direccion,String contacto) throws Exception{
         Proveedor proveedor = new Proveedor();
         proveedor.setId(UUID.randomUUID().toString());
         System.out.println("Creando proveedor");
@@ -57,7 +57,7 @@ public class ProveedorService {
     //======================================
     public List<Proveedor> obtenerProvedores(){
         try {
-            return pDAO.obtenerProveedores();
+          return pDAO.obtenerProveedores();
         } catch (Exception e) {
             throw e;
         }

@@ -3,23 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestionnegocio;
+package gestionnegcio;
 
-import gestionnegocio.entidades.Categoria;
-import gestionnegocio.entidades.Producto;
-import gestionnegocio.entidades.Proveedor;
-import gestionnegocio.services.CategoriaSerice;
-import gestionnegocio.services.ProductoServices;
-import gestionnegocio.services.ProveedorService;
-import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
+import gestionnegcio.entidades.Categoria;
+import gestionnegcio.entidades.Producto;
+import gestionnegcio.entidades.Proveedor;
+import gestionnegcio.services.CategoriaSerice;
+import gestionnegcio.services.ProductoServices;
+import gestionnegcio.services.ProveedorService;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,8 +30,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 
-public class FXMLController implements Initializable {
-
+/**
+ *
+ * @author brunopc
+ */
+public class FXMLDocumentController implements Initializable {
+    
     ProveedorService ps = new ProveedorService();
     CategoriaSerice cs = new CategoriaSerice();
     ProductoServices proS = new ProductoServices();
@@ -225,7 +231,7 @@ public class FXMLController implements Initializable {
         String nombre = nombreProveedor.getText();
         String direccion = direccionProveedor.getText();
         String contacto = contactoProveedor.getText();
-        Proveedor proveedor = ps.crearProvedoor(nombre, direccion, contacto);
+        Proveedor proveedor = ps.crearProveedor(nombre, direccion, contacto);
         proveedores.add(proveedor);
         listProveedor.getItems().add(proveedor);
     }
