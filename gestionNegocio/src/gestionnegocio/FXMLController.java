@@ -198,9 +198,10 @@ public class FXMLController implements Initializable {
         String codigo = codigoProducto.getText();
         String nombre = nombreProducto.getText();
         String marca = marcaProducto.getText();
+        String descripcion = descripcionProducto.getText();
         int cantidad = Integer.parseInt(cantidadProducto.getText());
         double precioSI = Double.parseDouble(precioSinIvaProducto.getText());
-        Producto producto = proS.crearProducto(codigo, nombre, marca, marca, cantidad, precioSI, proveedor, categoria);
+        Producto producto = proS.crearProducto(codigo, nombre, marca, descripcion, cantidad, precioSI, proveedor, categoria);
         
                 
     }
