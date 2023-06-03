@@ -54,7 +54,7 @@ public class ProveedorDAO {
         try {
             
             List<Proveedor> provedores = em.createQuery("SELECT p  FROM "
-                    + "Proovedor p").getResultList();
+                    + "Proveedor p").getResultList();
             return provedores;
         } catch (Exception e) {
             throw e;

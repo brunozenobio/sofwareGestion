@@ -48,7 +48,7 @@ public class ProveedorService {
         proveedor.setNombre(nombre);
         proveedor.setDireccion(direccion);
         proveedor.setContacto(contacto);
-        
+        pDAO.agregarProvedor(proveedor);
         return proveedor;
         
     }

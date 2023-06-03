@@ -61,7 +61,7 @@ public class ProductoServices {
         producto.setCantidad(cantidad);
         producto.setPrecio_sin_IVA(precioSinIva);
         producto.setPrecio_con_IVA(precioConIva);
-
+        pDAO.addProducto(producto);
         //METODO PARA AGREGAR EL PRODUCTO
         return producto;
     }
@@ -81,6 +81,15 @@ public class ProductoServices {
     public List<Producto> obtenerProductos(String id_proveedor,String id_categoria){
         try {
             return pDAO.consultarProducto(id_categoria, id_proveedor);
+            
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    public List<Producto> obtenerProductos(){
+        try {
+            return pDAO.obtenerProductos();
             
         } catch (Exception e) {
             throw e;

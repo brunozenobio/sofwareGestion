@@ -11,310 +11,275 @@ import gestionnegocio.entidades.Proveedor;
 import gestionnegocio.services.CategoriaSerice;
 import gestionnegocio.services.ProductoServices;
 import gestionnegocio.services.ProveedorService;
-import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.util.StringConverter;
 
 public class FXMLController implements Initializable {
 
-    ProveedorService ps = new ProveedorService();
-    CategoriaSerice cs = new CategoriaSerice();
-    ProductoServices proS = new ProductoServices();
-    //BOTONES PARA CONTROLAR LA LA VISIBILIDAD DE LOS PANELES
+    //ATRIBUTOS PARA VER LOS DATOS
     @FXML
-    private Button btnProducto;//ver la tabla producto
+    private Tab buttonVerDatos;
     @FXML
-    private Button btnCategoria;//ver la tabla categoria
+    private CheckBox verProductos;
     @FXML
-    private Button btnProveedor;//ver la tabla proveedor
+    private CheckBox verProveedores;
     @FXML
-    private Button cerrarAddProveedor; //cerrar la pestaña de agregar proveedor
-    @FXML
-    private Button cerrarAddProducto;//cerrar la pestaña de agregar producto
-    @FXML
-    private Button cerrarAddCategoria;//cerrar la pestaña de agregar categoria
-    @FXML
-    private Button addDatos;//ver pestaña de agregar datos
-    //============AGREGAR LOS DATOS===============
-    @FXML
-    private Button addDatosProductos;//añade productos
-    @FXML
-    private Button addDatosCategorias;//añade categorias
-    @FXML
-    private Button addDatosProveedor;//añade proveedor
-    //==========================================
-    @FXML
-    private Button verDatos;//Ver pestaña de visualizar datos
-
-    //PANELES CON VISIBILIDAD CAMBIABLE
-    @FXML
-    private Pane buttosVisualizacion;//CONTROLADO POR VER DATOS
-    @FXML
-    private Pane agregarProveedor;//CONTROLADO por addDatosProveedor
-    @FXML
-    private Pane agregarProducto;//CONTROLADO por addDatosProductos
-    @FXML
-    private Pane agregarCategoria;//CONTROLADO por addDatosCategorias
-    @FXML
-    private HBox botonesAgregar;//CONTROLADO por addDatos
-    @FXML
-    private HBox filtroProductos;//CONTROLADO por verDatos
-    @FXML
-    private Pane panelVisualizacion;//CONTROLADO por btnProducto,btnCategoria,btnProveedor
-    //ID DE LOS CAMPOS DONDE LEO LOS DATOS PAR ASETAR LOS OBJETOS
-
-    @FXML
-    private TextField nombreProveedor;
-    @FXML
-    private TextField direccionProveedor;
-    @FXML
-    private TextField contactoProveedor;
-    @FXML
-    private TextField nombreCategoria;
-    @FXML
-    private TextField codigoProducto;
-    @FXML
-    private TextField nombreProducto;
-    @FXML
-    private TextField marcaProducto;
-    @FXML
-    private TextField descripcionProducto;
-    @FXML
-    private TextField cantidadProducto;
-    @FXML
-    private TextField precioSinIvaProducto;
-    @FXML
-    private ComboBox<Proveedor> listProveedor;
-    private List<Proveedor> proveedores = new ArrayList<>();
-    @FXML
-    private ComboBox<Categoria> listCategoria;
-    private List<Categoria> categorias = new ArrayList<>();
-
-    //BUSCAR 
-    @FXML
-    private ComboBox<Categoria> buscarCategoria;
-    @FXML
-    private ComboBox<Proveedor> buscarProveedor;
+    private CheckBox verCategorias;
     @FXML
     private TextField buscarNombre;
     @FXML
-    private TextField buscarCodigo;
+    private ComboBox<String> buscarProveedor;
+    @FXML
+    private ComboBox<String> buscarCategoria;
 
-    //========VISUALIZACION DE LA TABLA============
+    //ATRIBUTOS PARA AGREGAR LOS DATOS
     @FXML
-    private TableView<Producto> tabla;
+    private Tab buttonAgregarDatos;
     @FXML
-    private TableColumn<Producto, String> codigo;
+    private ComboBox eleccionAgregar;
     @FXML
-    private TableColumn<Producto, String> nombre;
-    @FXML
-    private TableColumn<Producto, String> marca;
-    @FXML
-    private TableColumn<Producto, String> descp;
-    @FXML
-    private TableColumn<Producto, Integer> cantidad;
-    @FXML
-    private TableColumn<Producto, Double> precioSinIVA;
-    @FXML
-    private TableColumn<Producto, Double> precioConIVA;
+    private Button nuevoDato;
 
-    //=============================================
-    //VER BOTONES PARA AGREGAR PRODUCTOS
+    //AÑADIR PRODUCTO
     @FXML
+    private Pane paneAgregarProducto;
+    @FXML
+    private ComboBox<String> addProductoProveedor;
+    @FXML
+    private ComboBox<String> addProductoCategoria;
+    private ObservableList<Proveedor> listaProveedor;
+    private ObservableList<Categoria> listaCategoria;
+    @FXML
+    private Button confirmarAddProducto;
+    @FXML
+    private Button cancelarAddProducto;
+    @FXML
+    private TextField codigoNuevoProducto;
+    @FXML
+    private TextField nombreNuevoProducto;
+    @FXML
+    private TextField precioSinIvaNuevoProducto;
+    @FXML
+    private TextField stockNuevoProducto;
+    @FXML
+    private TextArea descripcionNuevoProducto;
+    @FXML
+    private TextField marcaNuevoProducto;
 
-    public void handleAddDatos(ActionEvent event) {
-        botonesAgregar.setVisible(true);
-        filtroProductos.setVisible(false);
-        buttosVisualizacion.setVisible(false);
-        filtroProductos.setVisible(false);
+    //AÑADIR CATEGORIA
+    @FXML
+    private Pane paneAgregarCategoria;
+    @FXML
+    private TextArea nombreNuevaCategoria;
+    @FXML
+    private Button confirmarAddCategoria;
+    @FXML
+    private Button cancelarAddCategoria;
 
+    //AÑADIR PROVEEDOR
+    @FXML
+    private Pane paneAgregarProveedor;
+    @FXML
+    private TextArea nombreNuevoProveedor;
+    @FXML
+    private TextArea contactoNuevoProveedor;
+    @FXML
+    private TextArea direccionNuevoProveedor;
+    @FXML
+    private Button confirmarAddProveedor;
+    @FXML
+    private Button cancelarAddProveedor;
+
+    //VISUALIZAR TABLA
+    @FXML
+    private TableView<Producto> viewTable;
+    @FXML
+    private TableColumn<Producto, String> productoCodigo;
+    @FXML
+    private TableColumn<Producto, String> productoNombre;
+    @FXML
+    private TableColumn<Producto, String> productoMarca;
+    @FXML
+    private TableColumn<Producto, String> productoDescripcion;
+    @FXML
+    private TableColumn<Producto, Integer> productoStock;
+    @FXML
+    private TableColumn<Producto, Double> productoPrecioSinIva;
+    @FXML
+    private TableColumn<Producto, Double> productoPrecioConIva;
+
+    private ObservableList<Producto> productosObservableList;
+    private List<Producto> productos;
+    ProductoServices ps = new ProductoServices();
+    ProveedorService provS = new ProveedorService();
+    CategoriaSerice cs = new CategoriaSerice();
+
+    //ACTUALIZAR LA TABLA DE DATOS
+    public void actualizarTabla() {
+        //PONER PROVEEDORES A LA LISTA DE PROVEEDOR Y CATEGORIAS A LA MISMA
+
+
+        //=====================
+        productos = ps.obtenerProductos();
+        productosObservableList = FXCollections.observableArrayList(productos);
+        viewTable.setItems(productosObservableList);
     }
 
-    //VER LOS FILTROS PARA BUSCAR LOS PRODUCTOS
-    @FXML
-    public void handleVerDatos(ActionEvent event) {
-        agregarProveedor.setVisible(false);
-        agregarCategoria.setVisible(false);
-        agregarProducto.setVisible(false);
-        botonesAgregar.setVisible(false);
-        filtroProductos.setVisible(true);
-        buttosVisualizacion.setVisible(true);
-        tabla.setVisible(true);
-        tabla.setManaged(true);
-        codigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        marca.setCellValueFactory(new PropertyValueFactory<>("marca"));
-        descp.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        cantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        precioSinIVA.setCellValueFactory(new PropertyValueFactory<>("precio_sin_IVA"));
-        precioConIVA.setCellValueFactory(new PropertyValueFactory<>("precio_con_IVA"));
+    //METODOS CONTROLES POR BOTON
+    public void verProducto(ActionEvent event) {
+        boolean selected = verProductos.isSelected();
+        if (selected) {
+            productos = ps.obtenerProductos();
+            productosObservableList = FXCollections.observableArrayList(productos);
+            viewTable.setItems(productosObservableList);
+            productoCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo_producto"));
+            productoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            productoMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+            productoDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            productoStock.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+            productoPrecioSinIva.setCellValueFactory(new PropertyValueFactory<>("precio_sin_IVA"));
+            productoPrecioConIva.setCellValueFactory(new PropertyValueFactory<>("precio_con_IVA"));
+
+        } else {
+
+        }
+    }
+    //METODO PARA MOSTAR PROVEEDORE
+    //METODO PARA MOSTRAR CATEGORIAS
+    private String opcion;
+
+    public void addNewDate(ActionEvent event) {
+        opcion = (String) eleccionAgregar.getValue();
+        if (opcion.equals("Producto")) {
+            paneAgregarProducto.setVisible(true);
+            paneAgregarCategoria.setVisible(false);
+            paneAgregarProveedor.setVisible(false);
+        } else if (opcion.equals("Proveedor")) {
+            paneAgregarProveedor.setVisible(true);
+            paneAgregarProducto.setVisible(false);
+            paneAgregarCategoria.setVisible(false);
+        } else if (opcion.equals("Categoria")) {
+            paneAgregarCategoria.setVisible(true);
+            paneAgregarProducto.setVisible(false);
+            paneAgregarProveedor.setVisible(false);
+        }
     }
 
-    //ABRIR FORMULARIO PARA AGREGAR PRODUCTOS
-    @FXML
-    public void handleAddDatosProductos(ActionEvent event) {
-        agregarProveedor.setVisible(false);
-        agregarCategoria.setVisible(false);
-        agregarProducto.setVisible(true);
+    public void cancelAddProveedor(ActionEvent event) {
+        paneAgregarProveedor.setVisible(false);
     }
 
-    //ABRIR FORMULARIO PARA AGREGAR PROVEDORES
-    @FXML
-    public void handleAddDatosProveedor(ActionEvent event) {
-        agregarProveedor.setVisible(true);
-        agregarCategoria.setVisible(false);
-        agregarProducto.setVisible(false);
+    public void cancelAddCategoria(ActionEvent event) {
+        paneAgregarCategoria.setVisible(false);
     }
 
-    //ABRIR FORMULARIO PARA AGREGAR CATEGORIAS
-    @FXML
-    public void handleAddDatosCategorias(ActionEvent event) {
-        agregarProveedor.setVisible(false);
-        agregarCategoria.setVisible(true);
-        agregarProducto.setVisible(false);
+    public void cancelAddProducto(ActionEvent event) {
+        paneAgregarProducto.setVisible(false);
     }
 
-    @FXML
-    public void handleCloseProveedor(ActionEvent event) {
-        agregarProveedor.setVisible(false);
+    public void confirmAddProveedor(ActionEvent event) throws Exception {
+        String nombre = nombreNuevoProveedor.getText();
+        String contacto = contactoNuevoProveedor.getText();
+        String direccion = direccionNuevoProveedor.getText();
+        Proveedor proveedor = provS.crearProvedoor(nombre, direccion, contacto);
+        actualizarProveedores(proveedor);
+        paneAgregarProveedor.setVisible(false);
     }
-
-    @FXML
-    public void handleCloseProducto(ActionEvent event) {
-        agregarProducto.setVisible(false);
-    }
-
-    @FXML
-    public void handleCloseCategoria(ActionEvent event) {
-        agregarCategoria.setVisible(false);
-    }
-
-    //VER O AGREGAR DATOS
-    //VISUALIZAR
-    @FXML
-    public void handleProducto(ActionEvent event) {
-
-    }
-
-    @FXML
-    public void handleProveedor(ActionEvent event) {
-
-    }
-
-    @FXML
-    public void handleCategoria(ActionEvent event) {
-
-    }
-
-    //AGREGAR PROVEDORES CATEGORIAS O PRODUCTOS
-    @FXML
-    public void handleAddProveedor(ActionEvent event) throws Exception {
-        String nombre = nombreProveedor.getText();
-        String direccion = direccionProveedor.getText();
-        String contacto = contactoProveedor.getText();
-        Proveedor proveedor = ps.crearProvedoor(nombre, direccion, contacto);
-        proveedores.add(proveedor);
-        listProveedor.getItems().add(proveedor);
-    }
-
-    @FXML
-    public void handleAddProducto(ActionEvent event) throws Exception {
-        Categoria categoria = listCategoria.getValue();
-        Proveedor proveedor = listProveedor.getValue();
-        String codigo = codigoProducto.getText();
-        String nombre = nombreProducto.getText();
-        String marca = marcaProducto.getText();
-        String descripcion = descripcionProducto.getText();
-        int cantidad = Integer.parseInt(cantidadProducto.getText());
-        double precioSI = Double.parseDouble(precioSinIvaProducto.getText());
-        Producto producto = proS.crearProducto(codigo, nombre, marca, descripcion, cantidad, precioSI, proveedor, categoria);
-
-    }
-
-    @FXML
-    public void handleAddCategoria(ActionEvent event) throws Exception {
-        String nombre = nombreCategoria.getText();
+     public void confirmAddCategoria(ActionEvent event) throws Exception {
+        String nombre = nombreNuevaCategoria.getText();
         Categoria categoria = cs.crearCategoria(nombre);
-        categorias.add(categoria);
-        listCategoria.getItems().add(categoria);
+        actualizarCategorias(categoria);
+       
 
+        paneAgregarCategoria.setVisible(false);
+    }
+    
+    public void actualizarCategorias(Categoria categoria){
+        mapCategorias.put(categoria.getNombre(), categoria);
+        addProductoCategoria.getItems().add(categoria.getNombre());
+        buscarCategoria.getItems().add(categoria.getNombre());
     }
 
-    //FILTRO PARA BUSCAR PRODUCTO
-    @FXML
-    public void viewCategoria(ActionEvent event) {
-        Categoria categoria = buscarCategoria.getValue();
-        List<Producto> productos = proS.obtenerProductos(null, categoria.getId());
-
+    public void actualizarProveedores(Proveedor proveedor){
+         mapProveedores.put(proveedor.getNombre(), proveedor);
+        addProductoProveedor.getItems().add(proveedor.getNombre());
+        buscarProveedor.getItems().add(proveedor.getNombre());
     }
+    
+   
 
-    @FXML
-    public void viewProveedor(ActionEvent event) {
-        Proveedor proveedor = buscarProveedor.getValue();
-        List<Producto> productos = proS.obtenerProductos(proveedor.getId(), null);
-
+    
+    
+    public void confirmAddProducto(ActionEvent event) throws Exception {
+        String codigo = codigoNuevoProducto.getText();
+        String nombre = nombreNuevoProducto.getText();
+        String precioSinIVA = precioSinIvaNuevoProducto.getText();
+        String stock = stockNuevoProducto.getText();
+        String descripcion = descripcionNuevoProducto.getText();
+        String marca = marcaNuevoProducto.getText();
+        Proveedor proveedor = mapProveedores.get(addProductoProveedor.getValue());
+        Categoria categoria = mapCategorias.get(addProductoCategoria.getValue());
+        Producto producto = new Producto();
+        ps.crearProducto(codigo, nombre, marca, descripcion, 123, 12343, proveedor, categoria);
+        actualizarTabla();
+        paneAgregarProducto.setVisible(false);
     }
-
-    @FXML
-    public void viewNombre(ActionEvent event) {
-        String nombre = buscarNombre.getText();
-        List<Producto> productos = proS.consultarNombre(nombre);
-
-    }
-
-    @FXML
-    public void viewCodigo(ActionEvent event) {
-        String codigo = buscarCodigo.getText();
-        Producto producto = proS.consultarCodigo(codigo);
-
-    }
+    private Map<String, Categoria> mapCategorias = new HashMap<>();
+    private Map<String, Proveedor> mapProveedores = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        eleccionAgregar.getItems().add("Producto");
+        eleccionAgregar.getItems().add("Proveedor");
+        eleccionAgregar.getItems().add("Categoria");
+        
+        productos = ps.obtenerProductos();
+        productosObservableList = FXCollections.observableArrayList(productos);
+        viewTable.setItems(productosObservableList);
+        productoCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo_producto"));
+        productoNombre.setCellValueFactory(new PropertyValueFactory<>("cnombre"));
+        productoMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        productoStock.setCellValueFactory(new PropertyValueFactory<>("cantidad"));   
+        productoDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        productoPrecioSinIva.setCellValueFactory(new PropertyValueFactory<>("precio_sin_IVA"));
+        productoPrecioConIva.setCellValueFactory(new PropertyValueFactory<>("precio_con_IVA"));
+       
 
-        // Configurar el StringConverter para mostrar el nombre del proveedor
-        if (ps.obtenerProvedores() != null && cs.obtenerCategorias() != null) {
-            proveedores = ps.obtenerProvedores();//VERIFICAR SI ES ASI
-            categorias = cs.obtenerCategorias();
+        //PONER PROVEEDORES A LA LISTA DE PROVEEDOR Y CATEGORIAS A LA MISMA
+        //PARA ESTO CREO UN MAP CON LLAVE COMO NOMBRE DEL OBJETO Y VALOR EL OBJETO
+        //SETEO EL COMOBOX CON LA LLAVE Y A LA HORA DE BUSCAR BUSCO POR EL VALOR DE ESA LALVE
+        
+
+        for (Categoria categoria : cs.obtenerCategorias()) {
+            mapCategorias.put(categoria.getNombre(), categoria);
+            addProductoCategoria.getItems().add(categoria.getNombre());
         }
-
-        listProveedor.setConverter(new StringConverter<Proveedor>() {
-            @Override
-            public String toString(Proveedor proveedor) {
-                return proveedor.getNombre(); // Ajusta esto según la propiedad que represente el nombre del proveedor
-            }
-
-            @Override
-            public Proveedor fromString(String string) {
-                // Esto no se utilizará en este caso, por lo que se puede dejar sin implementar
-                return null;
-            }
-        });
-        listCategoria.setConverter(new StringConverter<Categoria>() {
-            @Override
-            public String toString(Categoria categoria) {
-                return categoria.getNombre(); // Ajusta esto según la propiedad que represente el nombre del proveedor
-            }
-
-            @Override
-            public Categoria fromString(String string) {
-                // Esto no se utilizará en este caso, por lo que se puede dejar sin implementar
-                return null;
-            }
-        });
+        
+        for (Proveedor proveedor : provS.obtenerProvedores()) {
+            mapProveedores.put(proveedor.getNombre(), proveedor);
+            addProductoProveedor.getItems().add(proveedor.getNombre());
+        }
+        //=====================
     }
 
 }

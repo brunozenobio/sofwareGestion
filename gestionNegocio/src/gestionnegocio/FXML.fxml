@@ -1,123 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="557.0" prefWidth="723.0" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-width: 5px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionnegocio.FXMLController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="854.0" prefWidth="1114.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionnegocio.FXMLController">
     <children>
-        <Pane fx:id="buttosVisualizacion" layoutX="8.0" layoutY="93.0" prefHeight="310.0" prefWidth="658.0">
+        <TabPane layoutX="270.0" prefHeight="208.0" prefWidth="844.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="buttonVerDatos" text="Ver datos">
+                    <content>
+                        <Pane prefHeight="167.0" prefWidth="457.0">
+                            <children>
+                                <CheckBox fx:id="verProductos" layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#verProducto" text="Productos">
+                                    <font>
+                                        <Font size="19.0" />
+                                    </font>
+                                </CheckBox>
+                                <CheckBox fx:id="verProveedores" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" text="Proveedores">
+                                    <font>
+                                        <Font size="19.0" />
+                                    </font>
+                                </CheckBox>
+                                <CheckBox fx:id="verCategorias" layoutX="14.0" layoutY="103.0" mnemonicParsing="false" text="Categorias">
+                                    <font>
+                                        <Font size="19.0" />
+                                    </font>
+                                </CheckBox>
+                                <TextField fx:id="buscarNombre" layoutX="220.0" layoutY="45.0" prefHeight="60.0" prefWidth="227.0" promptText="Nombre" />
+                                <ComboBox fx:id="buscarProveedor" editable="true" layoutX="545.0" layoutY="16.0" prefHeight="44.0" prefWidth="223.0" promptText="Proveedor">
+                                    <effect>
+                                        <Blend mode="RED" opacity="0.05" />
+                                    </effect>
+                           
+                                </ComboBox>
+                                <ComboBox fx:id="buscarCategoria" editable="true" layoutX="545.0" layoutY="81.0" prefHeight="44.0" prefWidth="223.0" promptText="Categoria" />
+                            </children>
+                        </Pane>
+                    </content>
+                </Tab>
+                <Tab fx:id="buttonAgregarDatos" text="Agregar datos">
+                    <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <Text layoutX="28.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agregar un dato inexistente" wrappingWidth="316.13000106811523">
+                                    <font>
+                                        <Font size="22.0" />
+                                    </font>
+                                </Text>
+                                <Text layoutX="442.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modificar dato" wrappingWidth="316.13000106811523">
+                                    <font>
+                                        <Font size="22.0" />
+                                    </font>
+                                </Text>
+                                <ComboBox fx:id="eleccionAgregar" layoutX="55.0" layoutY="65.0" prefHeight="45.0" prefWidth="187.0" promptText="Que desea agregar">
+                                     
+                                </ComboBox>
+                                <Button fx:id="nuevoDato" layoutX="231.0" layoutY="127.0" mnemonicParsing="false" onAction="#addNewDate" prefHeight="34.0" prefWidth="107.0" text="Añadir" />
+                            </children>
+                        </Pane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <TableView fx:id="viewTable" layoutX="-2.0" layoutY="240.0" prefHeight="614.0" prefWidth="1114.0">
+            <columns>
+                <TableColumn fx:id="productoCodigo" prefWidth="75.0" text="Codigo" />
+                <TableColumn fx:id="productoNombre" prefWidth="75.0" text="Nombre" />
+                <TableColumn fx:id="productoMarca" prefWidth="75.0" text="Marca" />
+                <TableColumn fx:id="productoDescripcion" prefWidth="75.0" text="Descripcion" />
+                <TableColumn fx:id="productoStock" prefWidth="75.0" text="Stock" />
+                <TableColumn fx:id="productoPrecioSinIva" prefWidth="75.0" text="Precio sin iva" />
+                <TableColumn fx:id="productoPrecioConIva" prefWidth="75.0" text="PrecioonIva" />
+            </columns>
+        </TableView>
+        <Pane fx:id="paneAgregarCategoria" layoutX="317.0" layoutY="150.0" prefHeight="443.0" prefWidth="411.0" style="-fx-background-color: white; -fx-border-color: gray;" visible="false">
             <children>
-                <HBox layoutX="-2.0" layoutY="14.0" prefHeight="31.0" prefWidth="658.0" style="-fx-background-color: gray;" visible="false">
-                    <children>
-                        <Button fx:id="btnCategoria" mnemonicParsing="false" onAction="#handleCategoria" prefHeight="37.0" prefWidth="98.0" text="Categorias" />
-                        <Button fx:id="btnProveedor" mnemonicParsing="false" onAction="#handleProveedor" prefHeight="34.0" prefWidth="85.0" text="Proveedores" />
-                        <TextField fx:id="buscarCodigo" onAction="#viewCodigo" prefHeight="41.0" prefWidth="154.0" promptText="Codigo" />
-                    </children>
-                </HBox>
-                <Pane fx:id="panelVisualizacion" layoutX="1.0" layoutY="48.0" prefHeight="408.0" prefWidth="651.0" visible="false">
-                    <TableView fx:id="tableView">
-                        <columns>
-                            <TableColumn fx:id="codigo" text="Codigo" />
-                            <TableColumn fx:id="nombre" text="Nombre" />
-                            <TableColumn fx:id="marca" text="Marca" />
-                            <TableColumn fx:id="descp" text="Descripcion" />
-                            <TableColumn fx:id="cantidad" text="Stock" />
-                            <TableColumn fx:id="precioSinIVA" text="Precio sin IVA" />
-                            <TableColumn fx:id="precioConIVA" text="Precio con IVA" />
-                            
-                        </columns>
-                    </TableView>
-                </Pane>
-            </children>
-        </Pane>
-        <Pane fx:id="agregarProveedor" layoutX="156.0" layoutY="88.0" prefHeight="345.0" prefWidth="362.0" style="-fx-background-color: gray; -fx-border-color: black;" visible="false">
-            <children>
-                <TextField fx:id="nombreProveedor" layoutX="102.0" layoutY="59.0" style="-fx-border-color: black;" />
-                <TextField fx:id="direccionProveedor" layoutX="102.0" layoutY="103.0" style="-fx-border-color: black;" />
-                <TextField fx:id="contactoProveedor" layoutX="102.0" layoutY="150.0" style="-fx-border-color: black;" />
-                <Button fx:id="cerrarAddProveedor" layoutX="212.0" layoutY="304.0" mnemonicParsing="false" onAction="#handleCloseProveedor" prefHeight="32.0" prefWidth="63.0" text="Cerrar" />
-                <Button fx:id="butAddProveedor" layoutX="290.0" layoutY="304.0" mnemonicParsing="false" onAction="#handleAddProveedor" text="Agregar" />
-                <Text layoutX="52.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 25px;" text="Agregar proveedor" textAlignment="CENTER" wrappingWidth="258.598244830966" />
-            </children>
-        </Pane>
-        <Pane fx:id="agregarProducto" layoutX="157.0" layoutY="89.0" prefHeight="345.0" prefWidth="362.0" style="-fx-border-color: black; -fx-background-color: gray;" visible="false">
-            <children>
-                <TextField fx:id="codigoProducto" layoutX="14.0" layoutY="72.0" style="-fx-border-color: black;" />
-                <TextField fx:id="nombreProducto" layoutX="14.0" layoutY="117.0" style="-fx-border-color: black;" />
-                <TextField fx:id="marcaProducto" layoutX="14.0" layoutY="158.0" style="-fx-border-color: black;" />
-                <TextField fx:id="descripcionProducto" layoutX="14.0" layoutY="201.0" style="-fx-border-color: black;" />
-                <TextField fx:id="cantidadProducto" layoutX="14.0" layoutY="245.0" style="-fx-border-color: black;" />
-                <ComboBox fx:id="listProveedor" layoutX="181.0" layoutY="73.0" prefWidth="150.0" promptText="Categoria" />
-                <ComboBox fx:id="listCategoria" layoutX="181.0" layoutY="118.0" prefWidth="150.0" promptText="Proveedor" />
-                <Button fx:id="butAddProducto" layoutX="285.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleAddProducto" text="Agregar" />
-                <Button fx:id="cerrarAddProducto" layoutX="211.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleCloseProducto" text="Cerrar" />
-                <TextField fx:id="precioSinIvaProducto" layoutX="180.0" layoutY="171.0" style="-fx-border-color: black;" />
-            </children>
-        </Pane>
-        <Pane fx:id="agregarCategoria" layoutX="156.0" layoutY="89.0" prefHeight="345.0" prefWidth="362.0" style="-fx-background-color: gray; -fx-border-color: black;" visible="false">
-            <children>
-                <TextField fx:id="nombreCategoria" layoutX="102.0" layoutY="59.0" style="-fx-border-color: black;" />
-                <Button fx:id="cerrarAddCategoria" layoutX="212.0" layoutY="304.0" mnemonicParsing="false" onAction="#handleCloseCategoria" prefHeight="32.0" prefWidth="63.0" text="Cerrar" />
-                <Button fx:id="butAddCategoria" layoutX="290.0" layoutY="304.0" mnemonicParsing="false" onAction="#handleAddCategoria" text="Agregar" />
-                <Text layoutX="52.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 25px;" text="Agregar categoria" textAlignment="CENTER" wrappingWidth="258.598244830966" />
-            </children>
-        </Pane>
-        <HBox alignment="TOP_CENTER" layoutX="184.0" layoutY="6.0" prefHeight="29.0" prefWidth="471.0">
-            <children>
-                <Button fx:id="addDatos" minHeight="20.0" mnemonicParsing="false" onAction="#handleAddDatos" prefHeight="41.0" prefWidth="129.0" text="Agregar datos">
+                <Text layoutX="138.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria" wrappingWidth="134.13000106811523">
                     <font>
-                        <Font size="9.0" />
+                        <Font size="26.0" />
                     </font>
-                </Button>
-                <Button fx:id="verDatos" mnemonicParsing="false" onAction="#handleVerDatos" prefHeight="33.0" prefWidth="138.0" text="Visualizar datos" textAlignment="CENTER">
-                    <font>
-                        <Font size="9.0" />
-                    </font>
-                </Button>
-            </children>
-        </HBox>
-        <Pane layoutX="179.0" layoutY="43.0" prefHeight="29.0" prefWidth="533.0">
-            <children>
-                <HBox fx:id="botonesAgregar" layoutX="14.0" layoutY="8.0" prefHeight="53.0" prefWidth="471.0" visible="false">
-                    <children>
-                        <Button fx:id="addDatosProductos" mnemonicParsing="false" onAction="#handleAddDatosProductos" text="Agregar Productos" />
-                        <Button fx:id="addDatosCategorias" mnemonicParsing="false" onAction="#handleAddDatosCategorias" text="Agregar Categoria" />
-                        <Button fx:id="addDatosProveedor" mnemonicParsing="false" onAction="#handleAddDatosProveedor" text="Agregar Proveedor" />
-                    </children>
-                </HBox>
-                <HBox fx:id="filtroProductos" layoutX="6.0" prefHeight="29.0" prefWidth="532.0" visible="false">
-                    <children>
-                        <TextField fx:id="buscarNombre" onAction="#viewNombre" prefHeight="41.0" prefWidth="154.0" promptText="Nombre" />
-                        <ComboBox fx:id="buscarCategoria" onAction="#viewCategoria" prefHeight="29.0" prefWidth="111.0" promptText="categoria" />
-                        <ComboBox fx:id="buscarProveedor" onAction="#viewProveedor" prefHeight="29.0" prefWidth="123.0" promptText="proveedor" />
-                        <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="130.0" text="Buscar" />
-                    </children>
-                </HBox>
+                </Text>
+                <TextArea fx:id="nombreNuevaCategoria" layoutX="106.0" layoutY="103.0" prefHeight="35.0" prefWidth="200.0" promptText="Nombre" />
+                <Button fx:id="confirmarAddCategoria" layoutX="267.0" layoutY="366.0" mnemonicParsing="false" onAction="#confirmAddCategoria" prefHeight="51.0" prefWidth="109.0" text="Aceptar" />
+                <Button fx:id="cancelarAddCategoria" layoutX="29.0" layoutY="366.0" mnemonicParsing="false" onAction="#cancelAddCategoria" prefHeight="51.0" prefWidth="109.0" text="Cancelar" />
             </children>
         </Pane>
-        <Pane layoutX="8.0" layoutY="6.0" prefHeight="103.0" prefWidth="171.0">
+        <Pane fx:id="paneAgregarProducto" layoutX="181.0" layoutY="138.0" prefHeight="561.0" prefWidth="792.0" style="-fx-background-color: white; -fx-border-color: black;" visible="false">
             <children>
-                <ImageView fitHeight="93.0" fitWidth="163.0">
-                    <image>
-                        <Image url="@../../../gestionapp/logo.jpeg" />
-                    </image>
-                </ImageView>
+                <Text layoutX="164.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aregar un nuevo producto" wrappingWidth="463.13000106811523">
+                    <font>
+                        <Font size="36.0" />
+                    </font>
+                </Text>
+                <ComboBox fx:id="addProductoProveedor" editable="true" layoutX="396.0" layoutY="120.0" prefHeight="44.0" prefWidth="223.0" promptText="Proveedor">
+                    <effect>
+                        <Blend mode="RED" opacity="0.05" />
+                    </effect>
+                </ComboBox>
+                <ComboBox fx:id="addProductoCategoria" editable="true" layoutX="396.0" layoutY="189.0" prefHeight="44.0" prefWidth="223.0" promptText="Categoria" />
+                <Button fx:id="confirmarAddProducto" layoutX="546.0" layoutY="471.0" mnemonicParsing="false" onAction="#confirmAddProducto" prefHeight="49.0" prefWidth="150.0" text="Aceptar" />
+                <Button fx:id="cancelarAddProducto" layoutX="86.0" layoutY="471.0" mnemonicParsing="false" onAction="#cancelAddProducto" prefHeight="49.0" prefWidth="150.0" text="Cancelar" />
+                <TextField fx:id="codigoNuevoProducto" layoutX="107.0" layoutY="171.0" prefHeight="51.0" prefWidth="200.0" promptText="Nombre" />
+                <TextField fx:id="nombreNuevoProducto" layoutX="107.0" layoutY="116.0" prefHeight="51.0" prefWidth="200.0" promptText="Codigo" />
+                <TextField fx:id="precioSinIvaNuevoProducto" layoutX="108.0" layoutY="396.0" prefHeight="51.0" prefWidth="200.0" promptText="Precio Sin Iva" />
+                <TextField fx:id="stockNuevoProducto" layoutX="108.0" layoutY="340.0" prefHeight="51.0" prefWidth="200.0" promptText="Stock" />
+                <TextArea fx:id="descripcionNuevoProducto" layoutX="107.0" layoutY="284.0" prefHeight="51.0" prefWidth="200.0" promptText="Descripcion" />
+                <TextField fx:id="marcaNuevoProducto" layoutX="107.0" layoutY="228.0" prefHeight="51.0" prefWidth="200.0" promptText="Marca" />
+            </children>
+        </Pane>
+        <Pane fx:id="paneAgregarProveedor" layoutX="317.0" layoutY="150.0" prefHeight="443.0" prefWidth="411.0" style="-fx-background-color: white; -fx-border-color: gray;" visible="false">
+            <children>
+                <Text layoutX="138.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proveedor" wrappingWidth="134.13000106811523">
+                    <font>
+                        <Font size="26.0" />
+                    </font>
+                </Text>
+                <TextArea fx:id="nombreNuevoProveedor" layoutX="106.0" layoutY="104.0" prefHeight="35.0" prefWidth="200.0" promptText="Nombre" />
+                <Button fx:id="confirmarAddProveedor" layoutX="267.0" layoutY="366.0" mnemonicParsing="false" onAction="#confirmAddProveedor" prefHeight="51.0" prefWidth="109.0" text="Aceptar" />
+                <Button fx:id="cancelarAddProveedor" layoutX="29.0" layoutY="366.0" mnemonicParsing="false" onAction="#cancelAddProveedor" prefHeight="51.0" prefWidth="109.0" text="Cancelar" />
+                <TextArea fx:id="contactoNuevoProveedor" layoutX="106.0" layoutY="259.0" prefHeight="35.0" prefWidth="200.0" promptText="Contacto" />
+                <TextArea fx:id="direccionNuevoProveedor" layoutX="105.0" layoutY="186.0" prefHeight="35.0" prefWidth="200.0" promptText="Direccion" />
             </children>
         </Pane>
     </children>
-    <effect>
-        <Blend />
-    </effect>
-
 </AnchorPane>

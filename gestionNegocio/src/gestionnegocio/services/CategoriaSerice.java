@@ -38,6 +38,7 @@ public class CategoriaSerice {
         
         }
         categoria.setNombre(nombre);
+        cDAO.addCategoria(categoria);
         //METODO PARA AGREGAR A LA BASE DE DATOS
         return categoria;
         
