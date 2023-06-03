@@ -111,4 +111,16 @@ public class ProductoServices {
     //=============MODIFICACIONES================
     //======================================
 
+    public void borrarProducto(Producto producto){
+        try {
+            if(producto != null){
+                pDAO.deleteProducto(producto);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    
+
 }

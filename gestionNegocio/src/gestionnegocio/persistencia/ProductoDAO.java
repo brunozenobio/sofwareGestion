@@ -196,4 +196,20 @@ public class ProductoDAO {
     //======================================
     //=============MODIFICACIONES================
     //======================================
+    
+    
+    public void deleteProducto(Producto producto) {
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("GNPU");
+        EntityManager em = emf.createEntityManager();
+    
+    try {
+        em.getTransaction().begin();
+        Producto mergedProducto = em.merge(producto); // Fusiona la entidad desasociada
+        em.remove(mergedProducto); // Elimina la entidad fusionada
+        em.getTransaction().commit();
+    } catch (Exception e) {
+        em.getTransaction().rollback();
+        // Manejo del error
+    }
+}
 }

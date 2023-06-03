@@ -109,8 +109,22 @@ public class FXMLController implements Initializable {
     private Button confirmarAddProveedor;
     @FXML
     private Button cancelarAddProveedor;
+    
+    
+    //MODIFICAR DATOS
+    @FXML
+    private Pane paneDeleteDato;
+    
+    
 
     //VISUALIZAR TABLA
+    
+    //TABLA PRODUCTOS
+    private ObservableList<Producto> productosObservableList;
+    private List<Producto> productos;
+    ProductoServices ps = new ProductoServices();
+    ProveedorService provS = new ProveedorService();
+    CategoriaSerice cs = new CategoriaSerice();
     @FXML
     private TableView<Producto> viewTable;
     @FXML
@@ -127,12 +141,21 @@ public class FXMLController implements Initializable {
     private TableColumn<Producto, Double> productoPrecioSinIva;
     @FXML
     private TableColumn<Producto, Double> productoPrecioConIva;
-
-    private ObservableList<Producto> productosObservableList;
-    private List<Producto> productos;
-    ProductoServices ps = new ProductoServices();
-    ProveedorService provS = new ProveedorService();
-    CategoriaSerice cs = new CategoriaSerice();
+    @FXML
+    private TableColumn<Producto,String> productoProveedor;
+    //TABLA PROVEEDORES
+     private ObservableList<Proveedor> proveedorObservableList;
+    private List<Proveedor> proveedores;
+    @FXML
+    private TableView<Proveedor> viewTableProveedor;
+    @FXML
+    private TableColumn<Proveedor, String> nombreProveedor;
+    @FXML
+    private TableColumn<Proveedor, String> direccionProveedor;
+    @FXML
+    private TableColumn<Proveedor, String> contactoProveedor;
+    
+    
 
     //ACTUALIZAR LA TABLA DE DATOS
     public void actualizarTabla() {
@@ -141,12 +164,39 @@ public class FXMLController implements Initializable {
 
         //=====================
         productos = ps.obtenerProductos();
+        proveedores = provS.obtenerProvedores();
         productosObservableList = FXCollections.observableArrayList(productos);
+        proveedorObservableList = FXCollections.observableArrayList(proveedores);
         viewTable.setItems(productosObservableList);
+        viewTableProveedor.setItems(proveedorObservableList);
     }
 
     //METODOS CONTROLES POR BOTON
+    public void verProveedores(ActionEvent event){
+        verCategorias.setSelected(false);
+        verProductos.setSelected(false);
+        if(verProveedores.isSelected()){
+            viewTableProveedor.setVisible(true);
+        proveedores = provS.obtenerProvedores();
+         proveedorObservableList = FXCollections.observableArrayList(proveedores);
+         viewTableProveedor.setItems(proveedorObservableList);
+         nombreProveedor.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+         direccionProveedor.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+         contactoProveedor.setCellValueFactory(new PropertyValueFactory<>("contacto"));
+        }else{
+            viewTableProveedor.setVisible(false);
+        }
+        
+    }
+    public void verCategorias(ActionEvent event){
+        verProveedores.setSelected(false);
+        verProductos.setSelected(false);
+    }
     public void verProducto(ActionEvent event) {
+        viewTable.setVisible(true);
+        viewTableProveedor.setVisible(false);
+        verCategorias.setSelected(false);
+        verProveedores.setSelected(false);
         boolean selected = verProductos.isSelected();
         if (selected) {
             productos = ps.obtenerProductos();
@@ -159,15 +209,15 @@ public class FXMLController implements Initializable {
             productoStock.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
             productoPrecioSinIva.setCellValueFactory(new PropertyValueFactory<>("precio_sin_IVA"));
             productoPrecioConIva.setCellValueFactory(new PropertyValueFactory<>("precio_con_IVA"));
-
+            productoProveedor.setCellValueFactory(new PropertyValueFactory<>("id_proveedor"));
         } else {
 
         }
     }
     //METODO PARA MOSTAR PROVEEDORE
     //METODO PARA MOSTRAR CATEGORIAS
-    private String opcion;
 
+    private String opcion;
     public void addNewDate(ActionEvent event) {
         opcion = (String) eleccionAgregar.getValue();
         if (opcion.equals("Producto")) {
@@ -184,19 +234,15 @@ public class FXMLController implements Initializable {
             paneAgregarProveedor.setVisible(false);
         }
     }
-
     public void cancelAddProveedor(ActionEvent event) {
         paneAgregarProveedor.setVisible(false);
     }
-
     public void cancelAddCategoria(ActionEvent event) {
         paneAgregarCategoria.setVisible(false);
     }
-
     public void cancelAddProducto(ActionEvent event) {
         paneAgregarProducto.setVisible(false);
     }
-
     public void confirmAddProveedor(ActionEvent event) throws Exception {
         String nombre = nombreNuevoProveedor.getText();
         String contacto = contactoNuevoProveedor.getText();
@@ -213,37 +259,66 @@ public class FXMLController implements Initializable {
 
         paneAgregarCategoria.setVisible(false);
     }
-    
     public void actualizarCategorias(Categoria categoria){
         mapCategorias.put(categoria.getNombre(), categoria);
         addProductoCategoria.getItems().add(categoria.getNombre());
         buscarCategoria.getItems().add(categoria.getNombre());
     }
-
     public void actualizarProveedores(Proveedor proveedor){
          mapProveedores.put(proveedor.getNombre(), proveedor);
         addProductoProveedor.getItems().add(proveedor.getNombre());
         buscarProveedor.getItems().add(proveedor.getNombre());
-    }
-    
-   
-
-    
-    
+    } 
     public void confirmAddProducto(ActionEvent event) throws Exception {
         String codigo = codigoNuevoProducto.getText();
         String nombre = nombreNuevoProducto.getText();
         String precioSinIVA = precioSinIvaNuevoProducto.getText();
-        String stock = stockNuevoProducto.getText();
+        int stock = Integer.parseInt(stockNuevoProducto.getText());
+        double precioSinIva = Double.parseDouble(precioSinIvaNuevoProducto.getText());
         String descripcion = descripcionNuevoProducto.getText();
         String marca = marcaNuevoProducto.getText();
         Proveedor proveedor = mapProveedores.get(addProductoProveedor.getValue());
         Categoria categoria = mapCategorias.get(addProductoCategoria.getValue());
         Producto producto = new Producto();
-        ps.crearProducto(codigo, nombre, marca, descripcion, 123, 12343, proveedor, categoria);
+        ps.crearProducto(codigo, nombre, marca, descripcion, stock, precioSinIva, proveedor, categoria);
         actualizarTabla();
         paneAgregarProducto.setVisible(false);
     }
+    
+    public void buscarNombre(ActionEvent event){
+        ps.consultarNombre(buscarNombre.getText());
+        
+    }
+    //ELIMINAR UN DATO SELECCIONADO EN LA TABLA
+    public void deleteDato(ActionEvent event){
+        paneDeleteDato.setVisible(true);
+        
+    }
+    public void cancelDelete(ActionEvent event){
+        paneDeleteDato.setVisible(false);
+    }
+    public void acceptDelete(ActionEvent event){
+        Producto producDelte = viewTable.getSelectionModel().getSelectedItem();
+        ps.borrarProducto(producDelte);
+        actualizarTabla();
+        paneDeleteDato.setVisible(false);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     private Map<String, Categoria> mapCategorias = new HashMap<>();
     private Map<String, Proveedor> mapProveedores = new HashMap<>();
 
@@ -257,14 +332,14 @@ public class FXMLController implements Initializable {
         productosObservableList = FXCollections.observableArrayList(productos);
         viewTable.setItems(productosObservableList);
         productoCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo_producto"));
-        productoNombre.setCellValueFactory(new PropertyValueFactory<>("cnombre"));
+        productoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         productoMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         productoStock.setCellValueFactory(new PropertyValueFactory<>("cantidad"));   
         productoDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         productoPrecioSinIva.setCellValueFactory(new PropertyValueFactory<>("precio_sin_IVA"));
         productoPrecioConIva.setCellValueFactory(new PropertyValueFactory<>("precio_con_IVA"));
        
-
+        
         //PONER PROVEEDORES A LA LISTA DE PROVEEDOR Y CATEGORIAS A LA MISMA
         //PARA ESTO CREO UN MAP CON LLAVE COMO NOMBRE DEL OBJETO Y VALOR EL OBJETO
         //SETEO EL COMOBOX CON LA LLAVE Y A LA HORA DE BUSCAR BUSCO POR EL VALOR DE ESA LALVE
@@ -279,6 +354,7 @@ public class FXMLController implements Initializable {
             mapProveedores.put(proveedor.getNombre(), proveedor);
             addProductoProveedor.getItems().add(proveedor.getNombre());
         }
+        
         //=====================
     }
 

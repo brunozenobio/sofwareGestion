@@ -17,35 +17,50 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="854.0" prefWidth="1114.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionnegocio.FXMLController">
     <children>
+        <TableView fx:id="viewTable" layoutX="-2.0" layoutY="240.0" prefHeight="614.0" prefWidth="1114.0" visible="false">
+            <columns>
+                <TableColumn fx:id="productoCodigo" prefWidth="75.0" text="Codigo" />
+                <TableColumn fx:id="productoNombre" prefWidth="75.0" text="Nombre" />
+                <TableColumn fx:id="productoMarca" prefWidth="75.0" text="Marca" />
+                <TableColumn fx:id="productoDescripcion" prefWidth="75.0" text="Descripcion" />
+                <TableColumn fx:id="productoStock" prefWidth="75.0" text="Stock" />
+                <TableColumn fx:id="productoPrecioSinIva" prefWidth="75.0" text="Precio sin IVA" />
+                <TableColumn fx:id="productoPrecioConIva" prefWidth="75.0" text="Precio con IVA" />
+                <TableColumn fx:id="productoProveedor" prefWidth="75.0" text="Proveedor" />
+            </columns>
+        </TableView>
+        <TableView fx:id="viewTableProveedor" layoutX="-2.0" layoutY="240.0" prefHeight="614.0" prefWidth="1114.0" visible="false">
+            <columns>
+                <TableColumn fx:id="nombreProveedor" prefWidth="75.0" text="Nombre" />
+                <TableColumn fx:id="direccionProveedor" prefWidth="75.0" text="Direccion" />
+                <TableColumn fx:id="contactoProveedor" prefWidth="75.0" text="Contacto " />
+
+            </columns>
+        </TableView>
         <TabPane layoutX="270.0" prefHeight="208.0" prefWidth="844.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab fx:id="buttonVerDatos" text="Ver datos">
                     <content>
                         <Pane prefHeight="167.0" prefWidth="457.0">
                             <children>
+                        <ComboBox fx:id="buscarCategoria" editable="true" layoutX="593.0" layoutY="33.0" prefWidth="150.0" promptText="Categoria" />
                                 <CheckBox fx:id="verProductos" layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#verProducto" text="Productos">
                                     <font>
                                         <Font size="19.0" />
                                     </font>
                                 </CheckBox>
-                                <CheckBox fx:id="verProveedores" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" text="Proveedores">
+                                <CheckBox fx:id="verProveedores" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" onAction="#verProveedores" text="Proveedores">
                                     <font>
                                         <Font size="19.0" />
                                     </font>
                                 </CheckBox>
-                                <CheckBox fx:id="verCategorias" layoutX="14.0" layoutY="103.0" mnemonicParsing="false" text="Categorias">
+                                <CheckBox fx:id="verCategorias" layoutX="14.0" layoutY="103.0" mnemonicParsing="false" onAction="#verCategorias" text="Categorias">
                                     <font>
                                         <Font size="19.0" />
                                     </font>
                                 </CheckBox>
-                                <TextField fx:id="buscarNombre" layoutX="220.0" layoutY="45.0" prefHeight="60.0" prefWidth="227.0" promptText="Nombre" />
-                                <ComboBox fx:id="buscarProveedor" editable="true" layoutX="545.0" layoutY="16.0" prefHeight="44.0" prefWidth="223.0" promptText="Proveedor">
-                                    <effect>
-                                        <Blend mode="RED" opacity="0.05" />
-                                    </effect>
-                           
-                                </ComboBox>
-                                <ComboBox fx:id="buscarCategoria" editable="true" layoutX="545.0" layoutY="81.0" prefHeight="44.0" prefWidth="223.0" promptText="Categoria" />
+                                <TextField fx:id="buscarNombre" layoutX="220.0" layoutY="45.0" onAction="#buscarNombre" prefHeight="60.0" prefWidth="227.0" promptText="Nombre" />
+                        <ComboBox fx:id="buscarProveedor" editable="true" layoutX="593.0" layoutY="88.0" prefWidth="150.0" promptText="Proveedor" />
                             </children>
                         </Pane>
                     </content>
@@ -68,23 +83,13 @@
                                      
                                 </ComboBox>
                                 <Button fx:id="nuevoDato" layoutX="231.0" layoutY="127.0" mnemonicParsing="false" onAction="#addNewDate" prefHeight="34.0" prefWidth="107.0" text="Añadir" />
+                        <Button fx:id="deleteDato" layoutX="433.0" layoutY="66.0" mnemonicParsing="false" onAction="#deleteDato" prefHeight="44.0" prefWidth="94.0" text="Eliminar" />
                             </children>
                         </Pane>
                     </content>
                 </Tab>
             </tabs>
         </TabPane>
-        <TableView fx:id="viewTable" layoutX="-2.0" layoutY="240.0" prefHeight="614.0" prefWidth="1114.0">
-            <columns>
-                <TableColumn fx:id="productoCodigo" prefWidth="75.0" text="Codigo" />
-                <TableColumn fx:id="productoNombre" prefWidth="75.0" text="Nombre" />
-                <TableColumn fx:id="productoMarca" prefWidth="75.0" text="Marca" />
-                <TableColumn fx:id="productoDescripcion" prefWidth="75.0" text="Descripcion" />
-                <TableColumn fx:id="productoStock" prefWidth="75.0" text="Stock" />
-                <TableColumn fx:id="productoPrecioSinIva" prefWidth="75.0" text="Precio sin iva" />
-                <TableColumn fx:id="productoPrecioConIva" prefWidth="75.0" text="PrecioonIva" />
-            </columns>
-        </TableView>
         <Pane fx:id="paneAgregarCategoria" layoutX="317.0" layoutY="150.0" prefHeight="443.0" prefWidth="411.0" style="-fx-background-color: white; -fx-border-color: gray;" visible="false">
             <children>
                 <Text layoutX="138.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria" wrappingWidth="134.13000106811523">
@@ -134,5 +139,16 @@
                 <TextArea fx:id="direccionNuevoProveedor" layoutX="105.0" layoutY="186.0" prefHeight="35.0" prefWidth="200.0" promptText="Direccion" />
             </children>
         </Pane>
+      <Pane fx:id="paneDeleteDato" layoutX="309.0" layoutY="334.0" prefHeight="122.0" prefWidth="508.0" style="-fx-background-color: white; -fx-border-color: gray;" visible="false">
+         <children>
+            <Text layoutX="179.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Esta seguro?" wrappingWidth="149.99998998641968">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <Button layoutX="363.0" layoutY="55.0" mnemonicParsing="false" onAction="#acceptDelete" prefHeight="44.0" prefWidth="101.0" text="Aceptar" />
+            <Button layoutX="48.0" layoutY="55.0" mnemonicParsing="false" onAction="#cancelDelete" prefHeight="44.0" prefWidth="101.0" text="Cancelar" />
+         </children>
+      </Pane>
     </children>
 </AnchorPane>

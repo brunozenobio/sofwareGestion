@@ -57,10 +57,12 @@ public class ProveedorService {
     //======================================
     public List<Proveedor> obtenerProvedores(){
         try {
+            
             return pDAO.obtenerProveedores();
         } catch (Exception e) {
             throw e;
         }
+        
         
     }
     
